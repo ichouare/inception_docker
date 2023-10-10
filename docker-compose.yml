@@ -1,0 +1,53 @@
+version: "3"
+
+services:
+         mariadb:
+             container_name: mariadb
+             build : ./requirements/mariadb/
+             restart : always 
+             volumes:
+                     - ./db:/var/lib/mysql/
+             networks:
+                     - inception
+         nginx:
+             container_name: nginx
+             build : ./requirements/nginx
+             restart: always
+             volumes:
+                   - ./websites:/var/www/html
+             ports:
+                    - 443:443
+             networks:
+                    - inception
+             depends_on: 
+                     - wordpress
+         wordpress:
+                 image : wordpress
+                 volumes :
+                         - ./websites:/var/html/wordpress
+                 restart: always
+                 depends_on:
+                         - mariadb
+                 environment:
+                       - WORDPRESS_DB_HOST =mariadb
+                       - WORDRESS_DB_USER =ichouare
+                       - WORDPRES_DB_PASSWORD=1998
+                       - WORDPRESS_DB_NAME=WORDPRESSDB      
+                 networks:
+                          - inception
+volumes:
+        websites:
+                driver: local
+                driver_opts:
+                        type: 'none'
+                        o: 'mount'
+                        device: '/home/ichouare/data'
+        db:
+                driver: local
+                driver_opts:
+                        type: 'none'
+                        o: 'mount'
+                        device: '/home/ichouare/data'
+networks:
+        inception:
+

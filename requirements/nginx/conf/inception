@@ -1,0 +1,14 @@
+server {
+       listen 443 ssl;
+
+       server_name localhost
+	ssl_protocols TLSv1.2 TLSv1.3;
+	ssl_certificate /etc/nginx/ssl/inception.crt;
+	ssl_certificate_key /etc/nginx/ssl/inception.key;
+       root /var/www/inception;
+       index index.html;
+
+       location / {
+               try_files $uri $uri/ =404;
+       }
+}
