@@ -6,9 +6,15 @@ server {
 	ssl_certificate /etc/nginx/ssl/inception.crt;
 	ssl_certificate_key /etc/nginx/ssl/inception.key;
        root /var/www/inception;
-       index index.html;
-
-       location / {
-               try_files $uri $uri/ =404;
-       }
+     	 index index.php index.html index.htm;
+	 location / {
+    try_files $uri $uri/ /index.php?$args;
+  }
+	location ~ \.php$ {
+	root /var/www/inception;
+    include snippets/fastcgi-php.conf;
+    fastcgi_pass wordpress:9000; # Adjust the IP and port as needed
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include fastcgi_params;
+}
 }

@@ -6,11 +6,11 @@ FROM debian:bullseye
 RUN apt-get update -y && apt-get upgrade -y
 RUN apt-get update -y && apt-get install systemd -y
 
-RUN apt-get install mariadb-server mariadb-client -y
+RUN apt-get install mariadb-server  -y
 COPY  ./conf/core.sql ./
 #COPY  ./conf/db.sh .
 #RUN chmod 777 ./db.sh
-RUN  service  mysql  start  && mysql -u root <  "./core.sql"
+RUN  service  mariadb  start  && mysql -u root <  "./core.sql"
 
 EXPOSE 3306
 
