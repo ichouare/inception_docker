@@ -5,8 +5,8 @@ services:
              container_name: mariadb
              build : ./requirements/mariadb/ 
              restart : always 
-               #volumes:
-               # - ./db:/var/lib/mysql
+             volumes:
+               - db:/var/lib/mysql
              networks:
                      - inception
         nginx:
@@ -14,7 +14,7 @@ services:
             build: ./requirements/nginx
             restart: always
             volumes:
-                   - ./websites:/var/www/inception
+                   - wordpress:/var/www/html
             ports:
                     - 443:443
             networks:
@@ -25,25 +25,26 @@ services:
                 container_name: wordpress
                 build: ./requirements/wordpress/
                 volumes:
-                    - ./websites:/var/www/wordpress
+                    - wordpress:/var/www/wordpress
                 restart: always
                 depends_on:
                     - mariadb      
                 networks:
                   - inception
+                expose:
+                    - 9000
 volumes:
-        websites:
-                driver: local
-                driver_opts:
-                        type: 'none'
-                        o: 'mount'
-                        device: '/home/ichouare/data/'
+        wordpress:
+          #driver: local
+          #  driver_opts:
+          #    type: 'none'
+          #            o: 'mount'
+          #             device: '/home/ichouare/data/'
         db:
-                driver: local
-                driver_opts:
-                        type: 'none'
-                        o: 'mount'
-                        device: '/home/ichouare/data/mariadb/'
+          #     driver: local
+          #    driver_opts:
+          #            type: 'none'
+          #             o: 'mount'
+          #             device: '/home/ichouare/data'
 networks:
         inception:
-
