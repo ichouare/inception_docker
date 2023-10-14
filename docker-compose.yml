@@ -9,12 +9,14 @@ services:
                - db:/var/lib/mysql
              networks:
                      - inception
+             expose:
+                - "3306"
         nginx:
             container_name: nginx
             build: ./requirements/nginx
             restart: always
             volumes:
-                   - wordpress:/var/www/html
+                   - wordpress:/var/www/wordpress
             ports:
                     - 443:443
             networks:
@@ -32,7 +34,7 @@ services:
                 networks:
                   - inception
                 expose:
-                    - 9000
+                    - "9000"
 volumes:
         wordpress:
           #driver: local
