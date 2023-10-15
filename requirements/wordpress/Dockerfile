@@ -7,6 +7,14 @@ RUN  apt-get install  wget -y
 RUN apt-get install -y php7.3\
 	php-fpm\
 	php-mysql\
+	php-curl\
+	php-gd\
+	php-intl\
+	php-mbstring\
+	php-soap\
+	php-xml\
+	php-xmlrpc\
+	php-zip\
 	mariadb-client\
 	curl
 	
