@@ -11,6 +11,18 @@ services:
                      - inception
              expose:
                 - "3306"
+        wordpress:
+                container_name: wordpress
+                build: ./requirements/wordpress/
+                volumes:
+                    - wordpress:/var/www/wordpress
+                restart: always
+                depends_on:
+                    - mariadb
+                networks:
+                  - inception
+                expose:
+                    - "9000"
         nginx:
             container_name: nginx
             build: ./requirements/nginx
@@ -23,30 +35,18 @@ services:
                     - inception
             depends_on: 
                     - wordpress
-        wordpress:
-                container_name: wordpress
-                build: ./requirements/wordpress/
-                volumes:
-                    - wordpress:/var/www/wordpress
-                restart: always
-                depends_on:
-                    - mariadb      
-                networks:
-                  - inception
-                expose:
-                    - "9000"
 volumes:
         wordpress:
-          #driver: local
-          #  driver_opts:
-          #    type: 'none'
-          #            o: 'mount'
-          #             device: '/home/ichouare/data/'
+           driver: local
+           driver_opts:
+              type: 'none'
+              o: 'bind'
+              device: '/home/ichouare/data/website/'
         db:
-          #     driver: local
-          #    driver_opts:
-          #            type: 'none'
-          #             o: 'mount'
-          #             device: '/home/ichouare/data'
+          driver: local
+          driver_opts:
+              type: 'none'
+              o: 'bind'
+              device: '/home/ichouare/data/mariadb'
 networks:
         inception:

@@ -1,8 +1,6 @@
 FROM debian:bullseye
 
 RUN apt-get -y update && apt-get -y install nginx 
-RUN  apt-get  install -y  php \
-	php-fpm
 COPY ./tools/index.html /var/www/wordpress/
 COPY ./tools/phpinfo.php /var/www/wordpress/
 #COPY ./conf/nginx.conf /etc/nginx/sites-enabled/nginx.conf
