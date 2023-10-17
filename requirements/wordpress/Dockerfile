@@ -16,6 +16,7 @@ RUN apt-get install -y php7.3\
 	php-xmlrpc\
 	php-zip\
 	mariadb-client\
+	php-redis\
 	curl
 	
 #RUN service php7.4-fpm start && mkdir -p /var/www

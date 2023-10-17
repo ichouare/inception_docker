@@ -35,6 +35,14 @@ services:
                     - inception
             depends_on: 
                     - wordpress
+        redis:
+          container_name: redis
+          build: ./requirements/bonus
+          restart: always
+          networks:
+              - inception
+          ports:
+              - 6379:6739
 volumes:
         wordpress:
            driver: local
