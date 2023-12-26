@@ -7,6 +7,8 @@ services:
              restart : always 
              volumes:
                - db:/var/lib/mysql
+             env_file:
+                - .env
              networks:
                      - inception
              expose:
@@ -16,9 +18,12 @@ services:
                 build: ./requirements/wordpress/
                 volumes:
                     - wordpress:/var/www/wordpress
+                env_file:
+                  - .env
                 restart: always
                 depends_on:
                     - mariadb
+                    - redis
                 networks:
                   - inception
                 expose:
@@ -36,13 +41,38 @@ services:
             depends_on: 
                     - wordpress
         redis:
-          container_name: redis
-          build: ./requirements/bonus
-          restart: always
-          networks:
-              - inception
-          expose:
-              - "6379"
+                      container_name: redis
+                      build:  ./requirements/bonus/redis-container
+                        #command: ["redis-server", "--protected-mode", "no"]
+                      restart: always
+                      networks:
+                        - inception
+                      expose:
+                       - "6379"
+                      ports:
+                        - 6379:6739
+
+        ftp:
+                container_name: ftp
+                build: ./requirements/bonus/ftp-container
+                restart: always
+                volumes:
+                  - wordpress:/var/www/wordpress
+                networks:
+                  - inception
+                expose:
+                  - "21"
+        adminer:
+            container_name: adminer
+            build: ./requirements/bonus/adminer-container
+            restart: always
+            networks:
+                - inception
+                  #volumes:
+                  #- wordpress:/var/www/html
+            ports:
+              - 8080:8080
+
 volumes:
         wordpress:
            driver: local

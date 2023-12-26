@@ -2,11 +2,11 @@ FROM debian:bullseye
 
 RUN apt-get -y update && apt-get -y install nginx 
 COPY ./tools/index.html /var/www/html/index.html
-COPY ./tools/phpinfo.php /var/www/wordpress/
+#COPY ./tools/phpinfo.php /var/www/wordpress/
 #COPY ./conf/nginx.conf /etc/nginx/sites-enabled/nginx.conf
 COPY ./conf/nginx.conf /etc/nginx/conf.d
 RUN apt-get -y update && apt-get install -y openssl
-RUN mkdir /etc/nginx/ssl
+RUN mkdir /etc/nginx/ssl /var/www/wordpress
 
 COPY ./tools/inception.crt /etc/nginx/ssl/
 COPY ./tools/inception.key /etc/nginx/ssl/
