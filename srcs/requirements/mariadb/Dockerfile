@@ -22,6 +22,5 @@ RUN chmod +x ./db.sh ./core.sql
 
 #EXPOSE 3307
 #RUN ./db.sh
-
 CMD ["./db.sh"]
 

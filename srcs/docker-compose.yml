@@ -3,6 +3,7 @@ version: "3"
 services:
         mariadb:
              container_name: mariadb
+             image: mariadb
              build : ./requirements/mariadb/ 
              restart : always 
              volumes:
@@ -15,6 +16,7 @@ services:
                 - "3306"
         wordpress:
                 container_name: wordpress
+                image: wordpress
                 build: ./requirements/wordpress/
                 volumes:
                     - wordpress:/var/www/wordpress
@@ -30,6 +32,7 @@ services:
                     - "9000"
         nginx:
             container_name: nginx
+            image: nginx
             build: ./requirements/nginx
             restart: always
             volumes:
@@ -42,6 +45,7 @@ services:
                     - wordpress
         redis:
                       container_name: redis
+                      image: redis
                       build:  ./requirements/bonus/redis-container
                         #command: ["redis-server", "--protected-mode", "no"]
                       restart: always
@@ -54,6 +58,7 @@ services:
 
         ftp:
                 container_name: ftp
+                image: ftp
                 build: ./requirements/bonus/ftp-container
                 restart: always
                 volumes:
@@ -64,6 +69,7 @@ services:
                   - "21"
         adminer:
             container_name: adminer
+            image: adminer
             build: ./requirements/bonus/adminer-container
             restart: always
             networks:
