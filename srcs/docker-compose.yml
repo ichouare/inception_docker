@@ -67,6 +67,10 @@ services:
                   - inception
                 expose:
                   - "21"
+                ports:
+                  - 21:21
+                env_file:
+                  - .env
         adminer:
             container_name: adminer
             image: adminer
@@ -74,13 +78,25 @@ services:
             restart: always
             networks:
                 - inception
-                  #volumes:
-                  #- wordpress:/var/www/html
             ports:
               - 8080:8080
-
+        cAdvisor:
+            container_name: cadvisor
+            image: cadvisor
+            build: ./requirements/bonus/cadvisor
+            networks:
+                - inception
+            restart: always
+            ports:
+                - 8081:8080
+            volumes:
+              - /:/rootfs:ro
+              - /var/run:/var/run:rw
+              - /sys:/sys:ro
+              - /var/lib/docker/:/var/lib/docker:ro
 volumes:
         wordpress:
+           name: wordpress
            driver: local
            driver_opts:
               type: 'none'
