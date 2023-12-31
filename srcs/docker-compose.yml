@@ -47,7 +47,6 @@ services:
                       container_name: redis
                       image: redis
                       build:  ./requirements/bonus/redis-container
-                        #command: ["redis-server", "--protected-mode", "no"]
                       restart: always
                       networks:
                         - inception
@@ -62,15 +61,13 @@ services:
                 build: ./requirements/bonus/ftp-container
                 restart: always
                 volumes:
-                  - wordpress:/var/www/wordpress
+                  - wordpress:/home/ichouare/ftp/files
+                env_file:
+                    - .env
                 networks:
                   - inception
-                expose:
-                  - "21"
                 ports:
-                  - 21:21
-                env_file:
-                  - .env
+                   - "21:21"
         adminer:
             container_name: adminer
             image: adminer
@@ -96,7 +93,6 @@ services:
               - /var/lib/docker/:/var/lib/docker:ro
 volumes:
         wordpress:
-           name: wordpress
            driver: local
            driver_opts:
               type: 'none'
