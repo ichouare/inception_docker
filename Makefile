@@ -2,8 +2,10 @@ files = "./srcs/docker-compose.yml"
  
 
 all:
-	docker-compose -f ${files} up 
+	docker-compose -f ${files} up  --build
 
+noCache:
+	docker-compose -f ${files} build --no-cache
 down:
 	docker-compose -f ${files} down
 
