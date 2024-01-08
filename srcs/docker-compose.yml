@@ -25,7 +25,6 @@ services:
                 restart: always
                 depends_on:
                     - mariadb
-                    - redis
                 networks:
                   - inception
                 expose:
@@ -93,16 +92,18 @@ services:
               - /var/lib/docker/:/var/lib/docker:ro
 volumes:
         wordpress:
+           name: wordpress
            driver: local
            driver_opts:
               type: 'none'
               o: 'bind'
               device: '/home/ichouare/data/website/'
         db:
+          name: db
           driver: local
           driver_opts:
-              type: 'none'
-              o: 'bind'
-              device: '/home/ichouare/data/mariadb'
+            type: 'none'
+            o: 'bind'
+            device: '/home/ichouare/data/mariadb'
 networks:
         inception:
