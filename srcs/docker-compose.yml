@@ -47,6 +47,8 @@ services:
                       image: redis
                       build:  ./requirements/bonus/redis-container
                       restart: always
+                      depends_on:
+                        - mariadb
                       networks:
                         - inception
                       expose:
@@ -72,6 +74,8 @@ services:
             image: adminer
             build: ./requirements/bonus/adminer-container
             restart: always
+            depends_on:
+              - mariadb
             networks:
                 - inception
             ports:

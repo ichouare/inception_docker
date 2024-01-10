@@ -1,6 +1,9 @@
-#!/bin/sh
+#!/bin/bash
+
 
 service vsftpd start
+
+# Add the USER, change his password and declare him as the owner of wordpress folder and all subfolders
 
 adduser $ftp_user --disabled-password
 
@@ -11,10 +14,6 @@ echo "$ftp_user" | tee -a /etc/vsftpd.userlist
 
 mkdir /home/$ftp_user/ftp
 
-echo "user_sub_token=$ftp_user" >> /etc/vsftpd.conf
-echo "local_root=/home/$ftp_user/ftp" >> /etc/vsftpd.conf
-echo "userlist_file=/etc/vsftpd.userlist" >> /etc/vsftpd.conf
-cat  ./vsftpd.conf >> /etc/vsftpd.conf
 
 chown nobody:nogroup /home/$ftp_user/ftp
 chmod a-w /home/$ftp_user/ftp
@@ -22,8 +21,20 @@ chmod a-w /home/$ftp_user/ftp
 mkdir /home/$ftp_user/ftp/files
 chown $ftp_user:$ftp_user /home/$ftp_user/ftp/files
 
+sed -i -r "s/#write_enable=YES/write_enable=YES/1"   /etc/vsftpd.conf
+sed -i -r "s/#chroot_local_user=YES/chroot_local_user=YES/1"   /etc/vsftpd.conf
+
+echo "
+local_enable=YES
+allow_writeable_chroot=YES
+pasv_enable=YES
+local_root=/home/"${ftp_user}"/ftp
+pasv_min_port=40000
+pasv_max_port=40005
+userlist_file=/etc/vsftpd.userlist" >> /etc/vsftpd.conf
 
 service vsftpd stop
 
-exec usr/sbin/vsftpd
+
+/usr/sbin/vsftpd
 
